@@ -1,117 +1,182 @@
-const caixaPrincipal = document.querySelector(".caixa-principal");
 const caixaPerguntas = document.querySelector(".caixa-perguntas");
 const caixaAlternativas = document.querySelector(".caixa-alternativas");
 const caixaResultado = document.querySelector(".caixa-resultado");
+const tituloResultado = document.querySelector(".titulo-resultado");
 const textoResultado = document.querySelector(".texto-resultado");
 
 const perguntas = [
     {
-        enunciado: "Assim que saiu da escola você se depara com uma nova tecnologia, um chat que consegue responder todas as dúvidas que uma pessoa pode ter, ele também gera imagens e áudios hiper-realistas. Qual o primeiro pensamento?",
+        enunciado: "Que tipo de filme você prefere assistir?",
         alternativas: [
             {
-                texto: "Isso é assustador!",
-                afirmacao: "afirmacao"
+                texto: "🚀 Ficção científica e aventura",
+                filme: "interestelar"
             },
             {
-                texto: "Isso é maravilhoso!",
-                afirmacao: "afirmacao"
-            }           
-            
-        ]
-    },
-    {
-        enunciado: "Com a descoberta desta tecnologia, chamada Inteligência Artificial (IA), uma professora de tecnologia da escola decidiu fazer uma sequência de aulas sobre elaIA. No fim de uma aula ela pede que você escreva um trabalho sobre o uso de tecnologia em sala de aula. Qual atitude você toma?",
-        alternativas: [
-            {
-                texto:"Utilizar uma ferramenta de busca na internet que utiliza IA para que ela ajude a encontrar informações relevantes para o trabalho e explique numa linguagem que facilite o entendimento",
-                afirmacao:"afirmacao"
+                texto: "🦸 Ação e super-heróis",
+                filme: "vingadores"
             },
             {
-                texto: "Escrever o trabalho com base nas conversas que teve com colegas, algumas pesquisas na internet e conhecimentos próprios sobre o tema.",
-                afirmacao:"afirmacao"
+                texto: "😂 Comédia",
+                filme: "as_ferias"
+            },
+            {
+                texto: "💔 Romance e drama",
+                filme: "diario"
             }
         ]
     },
+
     {
-        enunciado: "Após a elaboração do trabalho, a professora realizou um debate entre a turma para entender como foi realizada a pesquisa e escrita. Nessa conversa também foi levantado um ponto muito importante: como a IA impacta o trabalho do futuro. Nesse debate, como você se posiciona?",
+        enunciado: "Qual cenário parece mais interessante?",
         alternativas: [
             {
-                texto:"Me preocupo com as pessoas que perderão seus empregos para máquinas e defendem a importância de proteger os trabalhadores.",
-                afirmacao:"afirmacao"
+                texto: "🌌 O espaço e outros planetas",
+                filme: "interestelar"
             },
             {
-                texto:"Defende a ideia de que a IA pode criar novas oportunidades de emprego e melhorar habilidades humanas.",
-                afirmacao:"afirmacao"
+                texto: "🏙️ Uma cidade cheia de perigos",
+                filme: "vingadores"
+            },
+            {
+                texto: "🏖️ Uma viagem inesquecível",
+                filme: "as_ferias"
+            },
+            {
+                texto: "🏡 Uma cidade pequena e tranquila",
+                filme: "diario"
             }
-            
         ]
     },
+
     {
-        enunciado: "Ao final da discussão, você precisou criar uma imagem no computador que representasse o que pensa sobre IA. E agora?",
+        enunciado: "O que você gostaria de sentir durante o filme?",
         alternativas: [
             {
-                texto:"Criar uma imagem utilizando uma plataforma de design como o Paint.",
-                afirmacao:"afirmacao"
+                texto: "🤯 Ficar pensando sobre o universo",
+                filme: "interestelar"
             },
             {
-                texto:"Criar uma imagem utilizando um gerador de imagem de IA.",
-                afirmacao:"afirmacao"
-            }
-            
-        ]
-    },
-    {
-        enunciado: " Você tem um trabalho em grupo de biologia para entregar na semana seguinte, o andamento do trabalho está um pouco atrasado e uma pessoa do seu grupo decidiu fazer com ajuda de uma IA. O problema é que o trabalho está totalmente igual ao do chat. O que você faz?",
-        alternativas: [
-            {
-                texto: "O chat pode ser uma tecnologia muito avançada, mas é preciso manter a atenção pois toda máquina erra, por isso revisar o trabalho e contribuir com as perspectivas pessoais é essencial.",
-                afirmacao:"afirmacao"
+                texto: "🔥 Sentir muita adrenalina",
+                filme: "vingadores"
             },
             {
-                texto: "Escrever comandos para o chat é uma forma de contribuir com o trabalho, por isso não é um problema utilizar o texto inteiro.",
-                afirmacao:"afirmacao"
+                texto: "🤣 Dar muitas risadas",
+                filme: "as_ferias"
+            },
+            {
+                texto: "❤️ Me emocionar com uma história de amor",
+                filme: "diario"
             }
-            
-            
         ]
-    },
+    }
 ];
 
-let atual = 0; 
-let perguntaAtual;
-let historiaFinal = "";
+const filmes = {
+
+    interestelar: {
+        titulo: "Interestelar",
+        sinopse: "Em um futuro em que a Terra enfrenta graves problemas ambientais, um grupo de astronautas parte em uma missão através de um buraco de minhoca em busca de um novo planeta que possa abrigar a humanidade. A jornada envolve descobertas científicas, escolhas difíceis e uma relação profunda entre pais e filhos."
+    },
+
+    vingadores: {
+        titulo: "Os Vingadores",
+        sinopse: "Quando uma ameaça poderosa coloca a Terra em perigo, um grupo de heróis precisa deixar suas diferenças de lado e trabalhar em equipe. Homem de Ferro, Capitão América, Thor, Hulk, Viúva Negra e Gavião Arqueiro unem forças para enfrentar um inimigo que pretende dominar o planeta."
+    },
+
+    as_ferias: {
+        titulo: "As Férias",
+        sinopse: "Uma família decide fazer uma viagem que deveria ser tranquila e divertida. Porém, uma série de situações inesperadas transforma o passeio em uma verdadeira aventura cheia de confusões, momentos engraçados e acontecimentos que ninguém poderia imaginar."
+    },
+
+    diario: {
+        titulo: "Diário de uma Paixão",
+        sinopse: "Em uma cidade tranquila, dois jovens de origens diferentes se apaixonam durante um verão. Apesar das dificuldades e das decisões tomadas ao longo dos anos, a história mostra como algumas relações podem permanecer importantes mesmo diante da passagem do tempo."
+    }
+
+};
+
+let atual = 0;
+let escolhas = {};
 
 function mostraPergunta() {
-    if(atual >= perguntas.length){
+
+    if (atual >= perguntas.length) {
         mostraResultado();
         return;
     }
-    perguntaAtual = perguntas[atual];
-    caixaPerguntas.textContent = perguntaAtual.enunciado;
-    caixaAlternativas.textContent = "";
-    mostraAlternativas();
-}
 
-function mostraAlternativas(){
-    for(const alternativa of perguntaAtual.alternativas){
-        const botaoAlternativas = document.createElement("button");
-        botaoAlternativas.textContent = alternativa.texto;
-        botaoAlternativas.addEventListener("click", () => respostaSelecionada(alternativa));
-        caixaAlternativas.appendChild(botaoAlternativas);
+    const perguntaAtual = perguntas[atual];
+
+    caixaPerguntas.textContent = perguntaAtual.enunciado;
+
+    caixaAlternativas.textContent = "";
+
+    for (const alternativa of perguntaAtual.alternativas) {
+
+        const botao = document.createElement("button");
+
+        botao.textContent = alternativa.texto;
+
+        botao.addEventListener("click", () => {
+            respostaSelecionada(alternativa);
+        });
+
+        caixaAlternativas.appendChild(botao);
     }
 }
 
-function respostaSelecionada(opcaoSelecionada){
-    const afirmacoes = opcaoSelecionada.afirmacao;
-    historiaFinal += afirmacoes + " ";
+function respostaSelecionada(opcaoSelecionada) {
+
+    const filmeEscolhido = opcaoSelecionada.filme;
+
+    if (escolhas[filmeEscolhido]) {
+        escolhas[filmeEscolhido]++;
+    } else {
+        escolhas[filmeEscolhido] = 1;
+    }
+
     atual++;
+
     mostraPergunta();
 }
 
-function mostraResultado(){
-    caixaPerguntas.textContent = "Em 2049...";
-    textoResultado.textContent = historiaFinal;
-    caixaAlternativas.textContent = ""; 
+function mostraResultado() {
+
+    let filmeFinal = "interestelar";
+    let maiorPontuacao = 0;
+
+    for (const filme in escolhas) {
+
+        if (escolhas[filme] > maiorPontuacao) {
+            maiorPontuacao = escolhas[filme];
+            filmeFinal = filme;
+        }
+    }
+
+    const resultado = filmes[filmeFinal];
+
+    caixaPerguntas.style.display = "none";
+    caixaAlternativas.style.display = "none";
+
+    caixaResultado.style.display = "block";
+
+    tituloResultado.textContent = `🎬 ${resultado.titulo}`;
+
+    textoResultado.textContent = resultado.sinopse;
+}
+
+function reiniciar() {
+
+    atual = 0;
+    escolhas = {};
+
+    caixaPerguntas.style.display = "block";
+    caixaAlternativas.style.display = "flex";
+
+    caixaResultado.style.display = "none";
+
+    mostraPergunta();
 }
 
 mostraPergunta();
